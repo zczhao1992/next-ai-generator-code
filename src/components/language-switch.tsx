@@ -15,8 +15,6 @@ export function LanguageSwitch() {
   const [ZH, EN] = locales;
   const locale = useLocale();
 
-  console.log("dwawadawd", locale, locales, ZH, EN);
-
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
