@@ -16,10 +16,11 @@ export default function Home() {
 
   const trpc = useTRPC();
 
-  const { data } = useQuery(trpc.hello.queryOptions({ text: "234234" }));
+  // const { data } = useQuery(trpc.hello.queryOptions({ text: "234234" }));
+  const { data: messages } = useQuery(trpc.messages.getMany.queryOptions());
 
-  const invoke = useMutation(
-    trpc.invoke.mutationOptions({
+  const CreateMessage = useMutation(
+    trpc.messages.create.mutationOptions({
       onSuccess: () => {
         toast.success("后台开始运行");
       },
@@ -32,11 +33,17 @@ export default function Home() {
 
       <Input value={value} onChange={(e) => setValue(e.target.value)} />
 
-      <Button onClick={() => invoke.mutate({ value: value })}>invoke</Button>
+      <Button
+        disabled={CreateMessage.isPending}
+        onClick={() => CreateMessage.mutate({ value: value })}
+      >
+        invoke
+      </Button>
 
       {t("title")}
 
-      <div>{JSON.stringify(data)}</div>
+      {/* <div>{JSON.stringify(data)}</div> */}
+      <div>{JSON.stringify(messages, null, 2)}</div>
     </div>
   );
 }

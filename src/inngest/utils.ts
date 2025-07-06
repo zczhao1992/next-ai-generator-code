@@ -8,3 +8,21 @@ export async function getSandbox(sandboxId: string) {
 
   return sandbox;
 }
+
+export function lastAssistantTextMessageContent(result: AgentResult) {
+  const lastAssistantTextMessageIndex = result.output.findLastIndex(
+    (message) => message.role === "assistant"
+  );
+
+  const message = result.output[lastAssistantTextMessageIndex] as
+    | TextMessage
+    | undefined;
+
+  if (!message?.content) {
+    return undefined;
+  }
+
+  return typeof message.content === "string"
+    ? message.content
+    : message.content.map((c) => c.text).join("");
+}
