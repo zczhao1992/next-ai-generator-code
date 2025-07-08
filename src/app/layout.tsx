@@ -5,7 +5,7 @@ import { getLocale, getMessages } from "next-intl/server";
 
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "sonner";
-
+import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,14 +36,21 @@ export default async function RootLayout({
 
   return (
     <TRPCReactProvider>
-      <html lang={locale}>
+      <html lang={locale} suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Toaster />
-          <NextIntlClientProvider messages={messages}>
-            {children}
-          </NextIntlClientProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Toaster />
+            <NextIntlClientProvider messages={messages}>
+              {children}
+            </NextIntlClientProvider>
+          </ThemeProvider>
         </body>
       </html>
     </TRPCReactProvider>

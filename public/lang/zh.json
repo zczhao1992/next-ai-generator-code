@@ -1,5 +1,33 @@
 {
     "Home": {
         "title": "你好"
+    },
+    "Message": {
+        "card": {
+            "Preview": "预览"
+        },
+        "form": {
+            "placeholder": "想要构建什么应用？",
+            "enter": "回车",
+            "submit": "提交"
+        },
+        "loading": {
+            "Thinking": "开始思考...",
+            "Loading": "开始加载...",
+            "Generating": "开始生成...",
+            "Analyzing": "开始响应数据...",
+            "Building": "开始创建网站...",
+            "Crafting": "开始增加组件...",
+            "Optimizing": "在程序加入BUG...",
+            "Adding": "在程序加入后门...",
+            "Ready": "马上就好了..."
+        },
+        "header": {
+            "GoHome": "回到首页",
+            "Appearance": "主题",
+            "Light": "浅色",
+            "Dark": "暗色",
+            "System": "系统"
+        }
     }
 }

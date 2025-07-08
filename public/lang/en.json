@@ -1,5 +1,33 @@
 {
     "Home": {
         "title": "hello"
+    },
+    "Message": {
+        "card": {
+            "Preview": "Preview"
+        },
+        "form": {
+            "placeholder": "What would you like to build?",
+            "enter": "Enter",
+            "submit": "to submit"
+        },
+        "loading": {
+            "Thinking": "Thinking...",
+            "Loading": "Loading...",
+            "Generating": "Generating...",
+            "Analyzing": "Analyzing your request...",
+            "Building": "Building your website...",
+            "Crafting": "Crafting components...",
+            "Optimizing": "Optimizing layout...",
+            "Adding": "Adding final touches...",
+            "Ready": "Almost ready..."
+        },
+        "header": {
+            "GoHome": "Go to Dashboard",
+            "Appearance": "Appearance",
+            "Light": "Light",
+            "Dark": "Dark",
+            "System": "System"
+        }
     }
 }
