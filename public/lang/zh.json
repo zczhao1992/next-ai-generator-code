@@ -28,6 +28,11 @@
             "Light": "浅色",
             "Dark": "暗色",
             "System": "系统"
+        },
+        "sandbox": {
+            "refresh": "点击刷新",
+            "copy": "点击复制",
+            "newTab": "在新标签页打开"
         }
     }
 }

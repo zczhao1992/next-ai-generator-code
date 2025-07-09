@@ -28,6 +28,11 @@
             "Light": "Light",
             "Dark": "Dark",
             "System": "System"
+        },
+        "sandbox": {
+            "refresh": "Click to refresh",
+            "copy": "Click to copy",
+            "newTab": "Open in a new tab"
         }
     }
 }
