@@ -1,6 +1,7 @@
 {
     "Home": {
-        "title": "hello"
+        "title": "Build something with FrontEnd AI",
+        "des": "Create apps and websites by chatting with AI"
     },
     "Message": {
         "card": {
@@ -33,6 +34,17 @@
             "refresh": "Click to refresh",
             "copy": "Click to copy",
             "newTab": "Open in a new tab"
+        }
+    },
+    "Project": {
+        "form": {
+            "placeholder": "What would you like to build?",
+            "enter": "Enter",
+            "submit": "to submit"
+        },
+        "list": {
+            "title": "s Projects",
+            "noFound": "No projects found"
         }
     }
 }

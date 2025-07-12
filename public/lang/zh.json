@@ -1,6 +1,7 @@
 {
     "Home": {
-        "title": "你好"
+        "title": "AI生成前端代码",
+        "des": "使用DeepSeek生成前端项目"
     },
     "Message": {
         "card": {
@@ -33,6 +34,17 @@
             "refresh": "点击刷新",
             "copy": "点击复制",
             "newTab": "在新标签页打开"
+        }
+    },
+    "Project": {
+        "form": {
+            "placeholder": "想要构建什么应用？",
+            "enter": "回车",
+            "submit": "提交"
+        },
+        "list": {
+            "title": "的项目",
+            "noFound": "无项目"
         }
     }
 }

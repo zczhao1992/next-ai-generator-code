@@ -11,6 +11,7 @@ import Link from "next/link";
 import { CodeIcon, CrownIcon, EyeIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Fragment } from "@/generated/prisma";
+import { UserControl } from "@/components/user-control";
 import { FileCollection } from "@/types";
 import { MessagesContainer } from "../components/messages-container";
 import { ProjectHeader } from "../components/project-header";
@@ -81,7 +82,7 @@ export const ProjectView = ({ projectId }: ProjectViewProps) => {
                     </Link>
                   </Button>
                 )} */}
-                {/* <UserControl /> */}
+                <UserControl />
               </div>
             </div>
             <TabsContent value="preview">
