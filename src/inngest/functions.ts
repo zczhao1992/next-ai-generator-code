@@ -9,11 +9,16 @@ import {
   type Tool,
 } from "@inngest/agent-kit";
 import { Sandbox } from "@e2b/code-interpreter";
-import { getSandbox, lastAssistantTextMessageContent } from "./utils";
+import {
+  getSandbox,
+  lastAssistantTextMessageContent,
+  parseAgentOutput,
+} from "./utils";
 import { FileCollection } from "@/types";
 import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from "@/prompt";
 import { z } from "zod";
 import prisma from "@/lib/db";
+import { SANDBOX_TIMEOUT_IN_MS } from "@/constants";
 
 interface AgentState {
   summary: string;
@@ -26,35 +31,36 @@ export const codeAgentFunciton = inngest.createFunction(
   async ({ event, step }) => {
     const sandboxId = await step.run("get-sandbox-id", async () => {
       const sandbox = await Sandbox.create("ai-nextjs-test-2");
+      await sandbox.setTimeout(SANDBOX_TIMEOUT_IN_MS);
       return sandbox.sandboxId;
     });
 
-    // const previousMessages = await step.run(
-    //   "get-previous-messages",
-    //   async () => {
-    //     const formattedMessages: Message[] = [];
+    const previousMessages = await step.run(
+      "get-previous-messages",
+      async () => {
+        const formattedMessages: Message[] = [];
 
-    //     const messages = await prisma.message.findMany({
-    //       where: {
-    //         projectId: event.data.projectId,
-    //       },
-    //       orderBy: {
-    //         createdAt: "desc",
-    //       },
-    //       take: 5,
-    //     });
+        const messages = await prisma.message.findMany({
+          where: {
+            projectId: event.data.projectId,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 5,
+        });
 
-    //     for (const message of messages) {
-    //       formattedMessages.push({
-    //         type: "text",
-    //         role: message.role === "ASSISTANT" ? "assistant" : "user",
-    //         content: message.content,
-    //       });
-    //     }
+        for (const message of messages) {
+          formattedMessages.push({
+            type: "text",
+            role: message.role === "ASSISTANT" ? "assistant" : "user",
+            content: message.content,
+          });
+        }
 
-    //     return formattedMessages.reverse();
-    //   }
-    // );
+        return formattedMessages.reverse();
+      }
+    );
 
     const state = createState<AgentState>(
       {
@@ -62,7 +68,7 @@ export const codeAgentFunciton = inngest.createFunction(
         files: {},
       },
       {
-        // messages: previousMessages,
+        messages: previousMessages,
       }
     );
 
@@ -208,6 +214,36 @@ export const codeAgentFunciton = inngest.createFunction(
 
     const result = await network.run(event.data.value, { state });
 
+    const fragmentTitleGenerator = createAgent({
+      name: "fragment-title-generator",
+      description: "A fragment title generator",
+      system: FRAGMENT_TITLE_PROMPT,
+      model: openai({
+        model: "deepseek-chat",
+        apiKey: process.env.DEEPSEEK_API_KEY,
+        baseUrl: "https://api.deepseek.com/v1",
+      }),
+    });
+
+    const responseGenerator = createAgent({
+      name: "response-generator",
+      description: "A response generator",
+      system: RESPONSE_PROMPT,
+      model: openai({
+        model: "deepseek-chat",
+        apiKey: process.env.DEEPSEEK_API_KEY,
+        baseUrl: "https://api.deepseek.com/v1",
+      }),
+    });
+
+    const { output: fragmentTitleOutput } = await fragmentTitleGenerator.run(
+      result.state.data.summary
+    );
+
+    const { output: responseOutput } = await responseGenerator.run(
+      result.state.data.summary
+    );
+
     const isError =
       !result.state.data.summary ||
       Object.keys(result.state.data.files || {}).length === 0;
@@ -233,13 +269,13 @@ export const codeAgentFunciton = inngest.createFunction(
       return await prisma.message.create({
         data: {
           projectId: event.data.projectId,
-          content: result.state.data.summary,
+          content: parseAgentOutput(responseOutput),
           role: "ASSISTANT",
           type: "RESULT",
           fragment: {
             create: {
               sandboxUrl,
-              title: "Fragment",
+              title: parseAgentOutput(fragmentTitleOutput),
               files: result.state.data.files,
             },
           },

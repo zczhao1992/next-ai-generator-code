@@ -45,7 +45,6 @@ export const ProjectForm = () => {
         router.push(`/projects/${data.id}`);
 
         queryClient.invalidateQueries(trpc.projects.getMany.queryOptions());
-        // queryClient.invalidateQueries(trpc.usage.status.queryOptions());
       },
       onError: (error) => {
         if (error.data?.code === "UNAUTHORIZED") {
