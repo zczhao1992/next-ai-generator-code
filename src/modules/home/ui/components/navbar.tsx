@@ -4,7 +4,7 @@ import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 import { Cpu, Github } from "lucide-react";
 
 import Link from "next/link";
-
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitch } from "@/components/language-switch";
 import { UserControl } from "@/components/user-control";
@@ -14,6 +14,8 @@ import { motion } from "framer-motion";
 
 export const Navbar = () => {
   const scrolled = useScroll();
+
+  const t = useTranslations("Auth");
 
   return (
     <motion.header
@@ -38,11 +40,11 @@ export const Navbar = () => {
             </Link>
             <SignUpButton>
               <Button variant="outline" size="sm">
-                Sign Up
+                {t("signUp")}
               </Button>
             </SignUpButton>
             <SignInButton>
-              <Button size="sm">Sign In</Button>
+              <Button size="sm">{t("signIn")}</Button>
             </SignInButton>
           </div>
         </SignedOut>

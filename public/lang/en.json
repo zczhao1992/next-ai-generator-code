@@ -3,6 +3,10 @@
         "title": "Build something with FrontEnd AI",
         "des": "Create apps and websites by chatting with AI"
     },
+    "Auth": {
+        "signIn": "Sign In",
+        "signUp": "Sign Up"
+    },
     "Message": {
         "card": {
             "Preview": "Preview"

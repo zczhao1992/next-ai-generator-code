@@ -3,6 +3,10 @@
         "title": "AI生成前端代码",
         "des": "使用DeepSeek生成前端项目"
     },
+    "Auth": {
+        "signIn": "登录",
+        "signUp": "注册"
+    },
     "Message": {
         "card": {
             "Preview": "预览"
