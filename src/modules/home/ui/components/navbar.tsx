@@ -10,16 +10,20 @@ import { LanguageSwitch } from "@/components/language-switch";
 import { UserControl } from "@/components/user-control";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export const Navbar = () => {
   const scrolled = useScroll();
 
   return (
-    <nav
+    <motion.header
       className={cn(
         "p-4 bg-transparent fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b border-transparent",
         scrolled && "bg-background border-border"
       )}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
     >
       <div className="max-w-5xl mx-auto w-full flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
@@ -53,6 +57,6 @@ export const Navbar = () => {
           </div>
         </SignedIn>
       </div>
-    </nav>
+    </motion.header>
   );
 };

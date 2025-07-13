@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
 
@@ -21,7 +21,12 @@ export const ProjectsList = () => {
   if (!user) return null;
 
   return (
-    <div className="w-full bg-white dark:bg-sidebar rounded-xl p-8 border flex flex-col gap-y-6 sm:gap-y-4">
+    <motion.div
+      className="w-full bg-white dark:bg-sidebar rounded-xl p-8 border flex flex-col gap-y-6 sm:gap-y-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 1 }}
+    >
       <h2 className="text-2xl font-semibold">
         {user?.firstName}&apos;{t("list.title")}
       </h2>
@@ -54,6 +59,6 @@ export const ProjectsList = () => {
           </Button>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };

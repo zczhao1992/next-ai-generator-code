@@ -16,6 +16,7 @@ import { PROJECT_TEMPLATES } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   value: z
@@ -79,76 +80,83 @@ export const ProjectForm = () => {
   const isDisabled = isPending || !form.formState.isValid;
 
   return (
-    <Form {...form}>
-      <section className="space-y-6">
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className={cn(
-            "relative border p-4 pt-1 rounded-xl bg-sidebar dark:bg-sidebar transition-all",
-            isFocused && "shadow-xs"
-          )}
-        >
-          <FormField
-            control={form.control}
-            name="value"
-            render={({ field }) => (
-              <TextareaAutosize
-                {...field}
-                placeholder={t("form.placeholder")}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                minRows={2}
-                maxRows={8}
-                className="pt-4 resize-none border-none w-full outline-none bg-transparent"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-                    e.preventDefault();
-                    form.handleSubmit(onSubmit)(e);
-                  }
-                }}
-                disabled={isPending}
-              />
+    <motion.div
+      className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 1 }}
+    >
+      <Form {...form}>
+        <section className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className={cn(
+              "relative border p-4 pt-1 rounded-xl bg-sidebar dark:bg-sidebar transition-all",
+              isFocused && "shadow-xs"
             )}
-          />
+          >
+            <FormField
+              control={form.control}
+              name="value"
+              render={({ field }) => (
+                <TextareaAutosize
+                  {...field}
+                  placeholder={t("form.placeholder")}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  minRows={2}
+                  maxRows={8}
+                  className="pt-4 resize-none border-none w-full outline-none bg-transparent"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+                      e.preventDefault();
+                      form.handleSubmit(onSubmit)(e);
+                    }
+                  }}
+                  disabled={isPending}
+                />
+              )}
+            />
 
-          <div className="flex gap-x-2 items-end justify-between pt-2">
-            <div className="text-[10px] text-muted-foreground font-mono">
-              <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                <span>&#8984;</span> {t("form.enter")}
-              </kbd>
-              &nbsp;{t("form.submit")}
+            <div className="flex gap-x-2 items-end justify-between pt-2">
+              <div className="text-[10px] text-muted-foreground font-mono">
+                <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+                  <span>&#8984;</span> {t("form.enter")}
+                </kbd>
+                &nbsp;{t("form.submit")}
+              </div>
+              <Button
+                className={cn(
+                  "size-8 rounded-full",
+                  isDisabled && "bg-muted-foreground border"
+                )}
+                disabled={isDisabled}
+              >
+                {isPending ? (
+                  <Loader2Icon className="animate-spin" />
+                ) : (
+                  <ArrowUpIcon />
+                )}
+              </Button>
             </div>
-            <Button
-              className={cn(
-                "size-8 rounded-full",
-                isDisabled && "bg-muted-foreground border"
-              )}
-              disabled={isDisabled}
-            >
-              {isPending ? (
-                <Loader2Icon className="animate-spin" />
-              ) : (
-                <ArrowUpIcon />
-              )}
-            </Button>
-          </div>
-        </form>
+          </form>
 
-        <div className="flex-wrap justify-center gap-2 hidden md:flex max-w-3xl">
-          {PROJECT_TEMPLATES.map((template) => (
-            <Button
-              key={template.title}
-              variant="outline"
-              size="sm"
-              className="bg-white dark:bg-sidebar"
-              onClick={() => onSelectTemplate(template.prompt)}
-            >
-              {template.emoji}&nbsp;&nbsp;
-              {template.title}
-            </Button>
-          ))}
-        </div>
-      </section>
-    </Form>
+          <div className="flex-wrap justify-center gap-2 hidden md:flex max-w-3xl">
+            {PROJECT_TEMPLATES.map((template) => (
+              <Button
+                key={template.title}
+                variant="outline"
+                size="sm"
+                className="bg-white dark:bg-sidebar"
+                onClick={() => onSelectTemplate(template.prompt)}
+              >
+                {template.emoji}&nbsp;&nbsp;
+                {template.title}
+              </Button>
+            ))}
+          </div>
+        </section>
+      </Form>
+    </motion.div>
   );
 };
