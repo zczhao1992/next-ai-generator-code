@@ -15,10 +15,18 @@ import {
   parseAgentOutput,
 } from "./utils";
 import { FileCollection } from "@/types";
-import { FRAGMENT_TITLE_PROMPT, PROMPT, RESPONSE_PROMPT } from "@/prompt";
+import {
+  FRAGMENT_TITLE_PROMPT,
+  FRAGMENT_TITLE_PROMPT_CN,
+  PROMPT,
+  PROMPT_CN,
+  RESPONSE_PROMPT,
+  RESPONSE_PROMPT_CN,
+} from "@/prompt";
 import { z } from "zod";
 import prisma from "@/lib/db";
 import { SANDBOX_TIMEOUT_IN_MS } from "@/constants";
+import { getLocale } from "@/i18n";
 
 interface AgentState {
   summary: string;
@@ -72,10 +80,12 @@ export const codeAgentFunciton = inngest.createFunction(
       }
     );
 
+    const locale = await getLocale();
+
     const codeAgent = createAgent<AgentState>({
       name: "code-agent",
       description: "An expert coding agent",
-      system: PROMPT,
+      system: locale === "en" ? PROMPT : PROMPT_CN,
       model: openai({
         model: "deepseek-chat",
         apiKey: process.env.DEEPSEEK_API_KEY,
@@ -217,7 +227,8 @@ export const codeAgentFunciton = inngest.createFunction(
     const fragmentTitleGenerator = createAgent({
       name: "fragment-title-generator",
       description: "A fragment title generator",
-      system: FRAGMENT_TITLE_PROMPT,
+      system:
+        locale === "en" ? FRAGMENT_TITLE_PROMPT : FRAGMENT_TITLE_PROMPT_CN,
       model: openai({
         model: "deepseek-chat",
         apiKey: process.env.DEEPSEEK_API_KEY,
@@ -228,7 +239,7 @@ export const codeAgentFunciton = inngest.createFunction(
     const responseGenerator = createAgent({
       name: "response-generator",
       description: "A response generator",
-      system: RESPONSE_PROMPT,
+      system: locale === "en" ? RESPONSE_PROMPT : RESPONSE_PROMPT_CN,
       model: openai({
         model: "deepseek-chat",
         apiKey: process.env.DEEPSEEK_API_KEY,
