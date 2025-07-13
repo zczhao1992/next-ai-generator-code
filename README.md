@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next-AI-Generator-Code
 
-## Getting Started
+### 介绍
 
-First, run the development server:
+Next-AI-Generator-Code，基于 Next.js、shadcn/ui、TailWind css、E2B、Inngest、Prisma ORM、Neon 的一套 AI 生成代码项目。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 一、在线预览地址
+
+- vercel(需要翻墙)：https://next-ai-generator-code.vercel.app
+
+### 二、Git 仓库地址 (欢迎 Star⭐)
+
+- GitHub：https://github.com/zczhao1992/next-ai-generator-code.git
+
+### 三、🔨🔨🔨 项目功能
+
+- 🚀 采用最新技术找开发：Next15、TypeScript、shadcn/ui、TailWind css、Inngest 等
+- 🚀 使用 Clerk 作为身份认证，支持 Google、Github 账号登录
+- 🚀 使用 Prisma ORM 及 PostgreSQL 作为数据库存储工具，数据库部署在 Neon
+- 🚀 整个项目集成了 TypeScript
+- 🚀 使用 Inngest 构建 AI 工作流
+- 🚀 使用 Next-Intl 提供多语言（英语、中文）
+- 🚀 集成 DeepSeek AI 提供生成代码能力
+
+### 四、安装使用步骤 📑
+
+- **Clone：**
+
+```text
+# GitHub
+git clone https://github.com/zczhao1992/next-ai-generator-code.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Install：**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+npm install
+cnpm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# npm install 安装失败，请升级 nodejs 到 22 以上，或尝试使用以下命令：
+npm install --registry=https://registry.npm.taobao.org
+```
 
-## Learn More
+- **Run：**
 
-To learn more about Next.js, take a look at the following resources:
+```text
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Build：**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```text
+# 开发环境
+npm run build
+```
 
-## Deploy on Vercel
+### 五、项目截图
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### 1、首页：
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![gen-code](./public/landingPage.png)
+
+#### 2、AI 项目：
+
+![gen-code](./public/codePre.png)
+![gen-code](./public/codeview.png)
+
+### 六、文件资源目录 📚
+
+```text
+next-ai-generator-code
+├─ prisma                 # prisma orm
+├─ public                 # 静态资源文件（忽略打包）
+├─ src
+│  ├─ app                 # 项目页面
+│  ├─ components          # 全局组件
+│  ├─ generated           # ORM类型
+│  ├─ hooks               # 自定义hook
+│  ├─ i18n                # 多语言
+│  ├─ inngest             # 工作流函数
+│  ├─ lib                 # 工具
+│  ├─ modules             # 业务模型
+│  ├─ trpc                # trpc模块
+│  ├─ constants.ts        # 静态内容
+│  ├─ middleware.ts       # 中间件
+│  ├─ prompt.ts           # 提示词
+│  └─ types.ts            # 类型
+├─ .eslintrc.json         # eslint配置
+├─ .gitignore             # git 提交忽略
+├─ components.json        # shadcn/ui 组件配置
+├─ next-env.d.ts          # 环境变量配置
+├─ package-lock.json      # 依赖包包版本锁
+├─ package.json           # 依赖包管理
+├─ postcss.config.js      # postcss 配置
+├─ README.md              # README 介绍
+├─ tailwind.config.ts     # tailwind 配置
+└─ tsconfig.json          # typescript 全局配置
+```
