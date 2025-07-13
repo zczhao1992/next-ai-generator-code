@@ -47,6 +47,7 @@ export const projectsRouter = createTRPCRouter({
           .string()
           .min(1, { message: "Value is required" })
           .max(10000, { message: "Value is too long" }),
+        locale: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -71,6 +72,7 @@ export const projectsRouter = createTRPCRouter({
         data: {
           value: input.value,
           projectId: createdProject.id,
+          locale: input.locale,
         },
       });
 

@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { getLocale } from "@/i18n";
 
 const formSchema = z.object({
   value: z
@@ -32,7 +33,9 @@ export const ProjectForm = () => {
   const t = useTranslations("Project");
 
   const trpc = useTRPC();
+
   const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,8 +65,11 @@ export const ProjectForm = () => {
   );
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const locale = await getLocale();
+
     await createProject.mutateAsync({
       value: values.value,
+      locale,
     });
   };
 

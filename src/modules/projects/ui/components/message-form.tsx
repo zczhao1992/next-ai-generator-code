@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { useTRPC } from "@/trpc/client";
+import { getLocale } from "@/i18n";
 
 interface MessageFormProps {
   projectId: string;
@@ -57,9 +58,12 @@ export const MessageForm = ({ projectId }: MessageFormProps) => {
   );
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const locale = await getLocale();
+
     await createMessage.mutateAsync({
       value: values.value,
       projectId,
+      locale,
     });
   };
 

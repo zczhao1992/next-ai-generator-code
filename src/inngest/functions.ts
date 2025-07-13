@@ -26,7 +26,6 @@ import {
 import { z } from "zod";
 import prisma from "@/lib/db";
 import { SANDBOX_TIMEOUT_IN_MS } from "@/constants";
-import { getLocale } from "@/i18n";
 
 interface AgentState {
   summary: string;
@@ -80,12 +79,10 @@ export const codeAgentFunciton = inngest.createFunction(
       }
     );
 
-    const locale = await getLocale();
-
     const codeAgent = createAgent<AgentState>({
       name: "code-agent",
       description: "An expert coding agent",
-      system: locale === "en" ? PROMPT : PROMPT_CN,
+      system: event.data.locale === "en" ? PROMPT : PROMPT_CN,
       model: openai({
         model: "deepseek-chat",
         apiKey: process.env.DEEPSEEK_API_KEY,
@@ -228,7 +225,9 @@ export const codeAgentFunciton = inngest.createFunction(
       name: "fragment-title-generator",
       description: "A fragment title generator",
       system:
-        locale === "en" ? FRAGMENT_TITLE_PROMPT : FRAGMENT_TITLE_PROMPT_CN,
+        event.data.locale === "en"
+          ? FRAGMENT_TITLE_PROMPT
+          : FRAGMENT_TITLE_PROMPT_CN,
       model: openai({
         model: "deepseek-chat",
         apiKey: process.env.DEEPSEEK_API_KEY,
@@ -239,7 +238,7 @@ export const codeAgentFunciton = inngest.createFunction(
     const responseGenerator = createAgent({
       name: "response-generator",
       description: "A response generator",
-      system: locale === "en" ? RESPONSE_PROMPT : RESPONSE_PROMPT_CN,
+      system: event.data.locale === "en" ? RESPONSE_PROMPT : RESPONSE_PROMPT_CN,
       model: openai({
         model: "deepseek-chat",
         apiKey: process.env.DEEPSEEK_API_KEY,
