@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "sonner";
 import { z } from "zod";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { PROJECT_TEMPLATES } from "@/constants";
@@ -31,6 +31,8 @@ export const ProjectForm = () => {
   const clerk = useClerk();
 
   const t = useTranslations("Project");
+
+  const locale = useLocale();
 
   const trpc = useTRPC();
 
@@ -154,10 +156,14 @@ export const ProjectForm = () => {
                 variant="outline"
                 size="sm"
                 className="bg-white dark:bg-sidebar"
-                onClick={() => onSelectTemplate(template.prompt)}
+                onClick={() =>
+                  onSelectTemplate(
+                    locale === "en" ? template.prompt : template.prompt_zh
+                  )
+                }
               >
                 {template.emoji}&nbsp;&nbsp;
-                {template.title}
+                {locale === "en" ? template.title : template.title_zh}
               </Button>
             ))}
           </div>
